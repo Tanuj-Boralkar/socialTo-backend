@@ -1,3 +1,4 @@
+const allowedOrigins = require("../config/allowedOrigins");
 const User = require("../models/User");
 const { verify } = require("../utils/generateToken");
 const asyncHandler = require("../utils/asyncHandler");
@@ -24,10 +25,11 @@ exports.protect = asyncHandler(async (req, res, next) => {
   next();
 });
 exports.trustedOrigin = (req, res, next) => {
-  const allowed = (process.env.CLIENT_URL || "http://localhost:5173")
-    .split(",")
-    .map((x) => x.trim());
-  if (req.headers.origin && !allowed.includes(req.headers.origin))
+  const origin = req.headers.origin;
+
+  if (origin && !allowedOrigins.includes(origin)) {
     return next(fail(403, "Origin not allowed"));
+  }
+
   next();
 };
