@@ -1,0 +1,15 @@
+const router = require("express").Router();
+const c = require("../controllers/userController");
+const a = require("../utils/asyncHandler");
+const { protect } = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
+router.use(protect);
+router.get("/suggested", a(c.suggested));
+router.get("/requests", a(c.requests));
+router.put("/requests/:id", a(c.respond));
+router.put("/profile", upload.single("avatar"), a(c.update));
+router.put("/:id/follow", a(c.follow));
+router.delete("/:id/follow", a(c.unfollow));
+router.get("/:id/:kind", a(c.connections));
+router.get("/:username", a(c.profile));
+module.exports = router;

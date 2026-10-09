@@ -1,0 +1,10 @@
+const router = require("express").Router();
+const c = require("../controllers/notificationController");
+const a = require("../utils/asyncHandler");
+const { protect } = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
+router.use(protect);
+router.get("/", a(c.list));
+router.put("/read", a(c.read));
+router.put("/:id/read", a(c.read));
+module.exports = router;

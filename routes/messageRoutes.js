@@ -1,0 +1,12 @@
+const router = require("express").Router();
+const c = require("../controllers/messageController");
+const a = require("../utils/asyncHandler");
+const { protect } = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
+router.use(protect);
+router.get("/", a(c.list));
+router.post("/", a(c.start));
+router.get("/:id", a(c.history));
+router.post("/:id", upload.single("image"), a(c.send));
+router.put("/:id/seen", a(c.seen));
+module.exports = router;

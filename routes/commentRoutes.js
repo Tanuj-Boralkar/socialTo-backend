@@ -1,0 +1,10 @@
+const router = require("express").Router();
+const c = require("../controllers/commentController");
+const a = require("../utils/asyncHandler");
+const { protect } = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
+router.use(protect);
+router.get("/:targetId", a(c.list));
+router.post("/:targetId", a(c.create));
+router.delete("/:id", a(c.remove));
+module.exports = router;

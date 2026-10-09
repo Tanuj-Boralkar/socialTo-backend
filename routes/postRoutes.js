@@ -1,0 +1,16 @@
+const router = require("express").Router();
+const c = require("../controllers/postController");
+const a = require("../utils/asyncHandler");
+const { protect } = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
+router.use(protect);
+router.get("/", a(c.list));
+router.post("/", upload.array("media", 10), a(c.create));
+router.get("/:id", a(c.get));
+router.put("/:id", a(c.update));
+router.delete("/:id", a(c.remove));
+router.put("/:id/like", a(c.like));
+router.delete("/:id/like", a(c.like));
+router.put("/:id/save", a(c.save));
+router.delete("/:id/save", a(c.save));
+module.exports = router;
